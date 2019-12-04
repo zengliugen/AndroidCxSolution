@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CxSolution</string>
+    <string name="url_scheme_name">cxsolution</string>
 </resources>

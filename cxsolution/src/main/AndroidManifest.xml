@@ -1,2 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.unity.cxsolution" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.unity.cxsolution">
+
+    <application>
+        <activity
+            android:name=".Tools.URLScheme.URLSchemeActivity"
+            tools:ignore="InnerclassSeparator">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/url_scheme_name" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,6 +1,5 @@
 package com.unity.cxsolution.Tools;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -31,14 +30,8 @@ public class CallMethodTool {
                 methodObj = classObj.getMethod(methodName);
             }
             methodObj.invoke(classObj, args);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LogTool.e(e);
         }
     }
 }

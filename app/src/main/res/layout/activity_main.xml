@@ -6,35 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button1"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button2"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button3"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="16dp" />
+            <Button
+                android:id="@+id/btn_storage_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/btn_msg_storage_info" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button4"
-        tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="16dp" />
+            <Button
+                android:id="@+id/btn_request_permissions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_msg_request_permission" />
+            <Button
+                android:id="@+id/btn_open_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_msg_open_url" />
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
