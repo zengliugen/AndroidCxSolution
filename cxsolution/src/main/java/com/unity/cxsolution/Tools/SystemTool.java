@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.net.Uri;
@@ -457,5 +458,44 @@ public class SystemTool {
      */
     public static Uri GetCurrentSchemeUri() {
         return URLSchemeActivity.CurrentUri;
+    }
+
+    /**
+     * 获取AndroidManifest文件中MetaData的Bundle
+     *
+     * @param context 上下文对象
+     * @return Bundle
+     */
+    public static Bundle GetAndroidManifestMetaDataBundle(Context context) {
+        if (context == null) {
+            return null;
+        }
+        Bundle metaData = null;
+        try {
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            metaData = ai.metaData;
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return metaData;
+    }
+
+    /**
+     * 获取AndroidManifest文件中MetaData的Bundle
+     *
+     * @return Bundle
+     */
+    public static Bundle GetAndroidManifestMetaDataBundle() {
+        return GetAndroidManifestMetaDataBundle(GetCurrentContext());
+    }
+
+    /**
+     * 获取AndroidManifest文件中配置的meta-data值
+     *
+     * @param name 名称
+     * @return 名称对应的值
+     */
+    public static String GetAndroidManifestMetaDataValue_String(String name) {
+        Bundle bundle = GetAndroidManifestMetaDataBundle();
+        return bundle.getString(name);
     }
 }

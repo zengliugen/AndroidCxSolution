@@ -20,15 +20,26 @@ public class UnityTool {
     /**
      * 发送消息到UNITY
      *
-     * @param gameObject UNITY侧组件名称
-     * @param methodName UNITY侧函数名称
-     * @param param      参数
+     * @param gameObjectName UNITY侧组件名称
+     * @param methodName     UNITY侧函数名称
+     * @param message        参数
      */
-    private static void UnitySendMessage(String gameObject, String methodName, String param) {
-        if (gameObject == null || methodName == null) {
+    @SuppressWarnings("WeakerAccess")
+    public static void SendMessageToUnity(String gameObjectName, String methodName, String message) {
+        if (gameObjectName == null || methodName == null) {
             return;
         }
-        UnityPlayer.UnitySendMessage(gameObject, methodName, param);
+        UnityPlayer.UnitySendMessage(gameObjectName, methodName, message);
+    }
+
+    /**
+     * 检测当前Context对象是否拥有指定权限
+     *
+     * @param permission 权限名称
+     * @return 是否拥有权限
+     */
+    public static Boolean CheckSelfPermission(String permission) {
+        return SystemTool.CheckSelfPermission(permission);
     }
 
     /**
@@ -60,12 +71,12 @@ public class UnityTool {
                 public void onRequestPermissionsResult(ArrayList<PermissionResultInfo> permissionResultInfoList) {
                     try {
                         String resultJson = JSONObject.toJSONString(permissionResultInfoList);
-                        UnitySendMessage(gameObjectName, methodName, resultJson);
+                        SendMessageToUnity(gameObjectName, methodName, resultJson);
                     } catch (Exception e) {
                         LogTool.e(e);
                         JSONObject errorJson = new JSONObject();
                         errorJson.put("error", e.getMessage());
-                        UnitySendMessage(gameObjectName, methodName, errorJson.toJSONString());
+                        SendMessageToUnity(gameObjectName, methodName, errorJson.toJSONString());
                     }
                 }
 
@@ -73,7 +84,7 @@ public class UnityTool {
                 public void onError(String error) {
                     JSONObject errorJson = new JSONObject();
                     errorJson.put("error", error);
-                    UnitySendMessage(gameObjectName, methodName, errorJson.toJSONString());
+                    SendMessageToUnity(gameObjectName, methodName, errorJson.toJSONString());
                 }
             });
         } catch (Exception e) {
@@ -111,12 +122,12 @@ public class UnityTool {
                 public void onRequestPermissionsResult(ArrayList<PermissionResultInfo> permissionResultInfoList) {
                     try {
                         String resultJson = JSONObject.toJSONString(permissionResultInfoList);
-                        UnitySendMessage(gameObjectName, methodName, resultJson);
+                        SendMessageToUnity(gameObjectName, methodName, resultJson);
                     } catch (Exception e) {
                         LogTool.e(e);
                         JSONObject errorJson = new JSONObject();
                         errorJson.put("error", e.getMessage());
-                        UnitySendMessage(gameObjectName, methodName, errorJson.toJSONString());
+                        SendMessageToUnity(gameObjectName, methodName, errorJson.toJSONString());
                     }
                 }
 
@@ -124,7 +135,7 @@ public class UnityTool {
                 public void onError(String error) {
                     JSONObject errorJson = new JSONObject();
                     errorJson.put("error", error);
-                    UnitySendMessage(gameObjectName, methodName, errorJson.toJSONString());
+                    SendMessageToUnity(gameObjectName, methodName, errorJson.toJSONString());
                 }
             });
         } catch (Exception e) {
