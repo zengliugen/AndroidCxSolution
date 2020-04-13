@@ -24,7 +24,6 @@ public class UnityTool {
      * @param methodName     UNITY侧函数名称
      * @param message        参数
      */
-    @SuppressWarnings("WeakerAccess")
     public static void SendMessageToUnity(String gameObjectName, String methodName, String message) {
         if (gameObjectName == null || methodName == null) {
             return;
@@ -225,6 +224,23 @@ public class UnityTool {
      */
     public static String GetSelfStorageInfo() {
         return SystemTool.GetSelfStorageInfo();
+    }
+
+    /**
+     * 获取自身空余存储大小
+     *
+     * @return 空余存储大小
+     */
+    public static Long GetSelfFreeStorageSize() {
+        Long freeSize = 0L;
+        try {
+            String storageInfoString = GetSelfStorageInfo();
+            JSONObject storageInfoJsonObject = JSONObject.parseObject(storageInfoString);
+            freeSize = storageInfoJsonObject.getLong("free_bytes");
+        } catch (Exception e) {
+            LogTool.e(e);
+        }
+        return freeSize;
     }
 
     /**

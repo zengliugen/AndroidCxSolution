@@ -85,11 +85,11 @@ class Tool {
         try {
             AssetManager assetManager = SystemTool.GetCurrentAssetManager();
             assert assetManager != null;
-            String[] configFiles = assetManager.list("EnterConfig/");
+            String[] configFiles = assetManager.list("EnterConfig");
 //            String[] configFiles = {"cxsolution/src/main/assets/EnterConfig/EnterConfig_default.xml"};
             if (configFiles != null) {
                 for (String configFile : configFiles) {
-                    InputStream inputStream = assetManager.open(configFile);
+                    InputStream inputStream = assetManager.open("EnterConfig/" + configFile);
 //                    InputStream inputStream = new FileInputStream(configFile);
                     HandleEnterConfig(inputStream);
                 }
@@ -97,7 +97,7 @@ class Tool {
         } catch (Exception e) {
             LogTool.e(e);
         }
-        System.out.println("初始化SDK函数信息列表完成");
+        LogTool.d("初始化SDK函数信息列表完成");
         isInit = true;
     }
 
@@ -160,7 +160,7 @@ class Tool {
                     }
                 }
             }
-            System.out.format("处理SDK入口完成 SDKName:%s\n", sdkName);
+            LogTool.d("处理SDK入口完成 SDKName:" + sdkName);
         } catch (Exception e) {
             LogTool.e(e);
         }
@@ -203,22 +203,20 @@ class Tool {
      *
      * @param classType  类类型
      * @param methodName 函数名称
-     * @param args       参数列表
+     * @param params     参数列表
+     * @param paramTypes 参数类型列表
      */
-    private static void Trigger(String classType, String methodName, Object... args) {
+    private static void Trigger(String classType, String methodName, Object[] params, Class[] paramTypes) {
         if (methodName == null || methodName.length() == 0) {
             return;
         }
-        System.out.format("Trigger classType:%s methodName:%s args:%s\n", classType, methodName, Arrays.toString(args));
         InitMethodInfoList();
+        LogTool.d(String.format("Trigger classType:%s methodName:%s params:%s\n", classType, methodName, Arrays.toString(params)));
         try {
-            Class[] paramTypes;
-            if (args != null && args.length != 0) {
-                paramTypes = new Class[args.length];
-                for (int i = 0; i < args.length; i++) {
-                    paramTypes[i] = args[i].getClass();
-                }
-            } else {
+            if (params == null) {
+                params = new Object[0];
+            }
+            if (paramTypes == null) {
                 paramTypes = new Class[0];
             }
             ArrayList<MethodInfo> methodInfoArrayList = null;
@@ -239,13 +237,13 @@ class Tool {
                             }
                         }
                         if (isSame) {
-                            CallMethodTool.StaticCall(methodInfo.className, methodName, args);
+                            CallMethodTool.StaticCall(methodInfo.className, methodName, params, paramTypes);
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LogTool.e(e);
         }
     }
 
@@ -254,10 +252,11 @@ class Tool {
      *
      * @param classType  类类型
      * @param methodName 函数名称
-     * @param args       参数列表
+     * @param params     参数列表
+     * @param paramTypes 参数类型列表
      */
-    static void TriggerBefore(String classType, String methodName, Object... args) {
-        Trigger(classType, methodName + "_Before", args);
+    static void TriggerBefore(String classType, String methodName, Object[] params, Class[] paramTypes) {
+        Trigger(classType, methodName + "_Before", params, paramTypes);
     }
 
     /**
@@ -265,9 +264,10 @@ class Tool {
      *
      * @param classType  类类型
      * @param methodName 函数名称
-     * @param args       参数列表
+     * @param params     参数列表
+     * @param paramTypes 参数类型列表
      */
-    static void TriggerAfter(String classType, String methodName, Object... args) {
-        Trigger(classType, methodName + "_After", args);
+    static void TriggerAfter(String classType, String methodName, Object[] params, Class[] paramTypes) {
+        Trigger(classType, methodName + "_After", params, paramTypes);
     }
 }

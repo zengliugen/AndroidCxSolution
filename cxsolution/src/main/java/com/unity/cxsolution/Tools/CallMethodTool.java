@@ -11,25 +11,22 @@ public class CallMethodTool {
      *
      * @param className  类名
      * @param methodName 函数名
-     * @param args       参数列表
+     * @param params     参数列表
+     * @param paramTypes 参数类型列表
      */
-    public static void StaticCall(String className, String methodName, Object... args) {
+    public static void StaticCall(String className, String methodName, Object[] params, Class[] paramTypes) {
         if (className == null || className.length() == 0 || methodName == null || methodName.length() == 0) {
             return;
         }
         try {
             Class<?> classObj = Class.forName(className);
             Method methodObj;
-            if (args != null && args.length != 0) {
-                Class[] paramTypes = new Class[args.length];
-                for (int i = 0; i < args.length; i++) {
-                    paramTypes[i] = args[i].getClass();
-                }
+            if (paramTypes != null && paramTypes.length != 0) {
                 methodObj = classObj.getMethod(methodName, paramTypes);
             } else {
                 methodObj = classObj.getMethod(methodName);
             }
-            methodObj.invoke(classObj, args);
+            methodObj.invoke(classObj, params);
         } catch (Exception e) {
             LogTool.e(e);
         }

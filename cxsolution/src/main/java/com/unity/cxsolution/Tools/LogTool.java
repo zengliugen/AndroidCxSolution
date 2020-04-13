@@ -49,7 +49,7 @@ public class LogTool {
      * @param msg 信息
      */
     public static void i(String msg) {
-        Log.v(TAG, msg);
+        Log.i(TAG, msg);
     }
 
     /**
@@ -59,7 +59,7 @@ public class LogTool {
      * @param throwable 详细信息
      */
     public static void i(String msg, Throwable throwable) {
-        Log.v(TAG, msg, throwable);
+        Log.i(TAG, msg, throwable);
     }
 
     /**
@@ -87,7 +87,7 @@ public class LogTool {
      * @param msg 信息
      */
     public static void e(String msg) {
-        Log.w(TAG, msg);
+        Log.e(TAG, msg);
     }
 
     /**
@@ -97,7 +97,7 @@ public class LogTool {
      * @param throwable 详细信息
      */
     public static void e(String msg, Throwable throwable) {
-        Log.w(TAG, msg, throwable);
+        Log.e(TAG, msg, throwable);
     }
 
     /**
@@ -110,5 +110,6 @@ public class LogTool {
             return;
         }
         e(e.getMessage());
+        e.printStackTrace();
     }
 }

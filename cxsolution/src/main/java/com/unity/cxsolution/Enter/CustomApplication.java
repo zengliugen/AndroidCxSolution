@@ -13,53 +13,55 @@ public class CustomApplication extends Application {
 
     /**
      * @param methodName 函数名称
-     * @param args       参数列表
+     * @param params     参数列表
+     * @param paramTypes 参数类型列表
      */
-    private static void TriggerBefore(String methodName, Object... args) {
-        Tool.TriggerBefore(Tool.ClassType_Application, methodName, args);
+    private static void TriggerBefore(String methodName, Object[] params, Class[] paramTypes) {
+        Tool.TriggerBefore(Tool.ClassType_Activity, methodName, params, paramTypes);
     }
 
     /**
      * @param methodName 函数名称
-     * @param args       参数列表
+     * @param params     参数列表
+     * @param paramTypes 参数类型列表
      */
-    private static void TriggerAfter(String methodName, Object... args) {
-        Tool.TriggerAfter(Tool.ClassType_Application, methodName, args);
+    private static void TriggerAfter(String methodName, Object[] params, Class[] paramTypes) {
+        Tool.TriggerAfter(Tool.ClassType_Activity, methodName, params, paramTypes);
     }
 
     @Override
     public void onCreate() {
         CurrentApplication = this;
-        TriggerBefore("onCreate");
+        TriggerBefore("onCreate", null, null);
         super.onCreate();
-        TriggerAfter("onCreate");
+        TriggerAfter("onCreate", null, null);
     }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        TriggerBefore("onConfigurationChanged", newConfig);
+        TriggerBefore("onConfigurationChanged", new Object[]{newConfig}, new Class[]{Configuration.class});
         super.onConfigurationChanged(newConfig);
-        TriggerAfter("onConfigurationChanged", newConfig);
+        TriggerAfter("onConfigurationChanged", new Object[]{newConfig}, new Class[]{Configuration.class});
     }
 
     @Override
     public void onLowMemory() {
-        TriggerBefore("onLowMemory");
+        TriggerBefore("onLowMemory", null, null);
         super.onLowMemory();
-        TriggerAfter("onLowMemory");
+        TriggerAfter("onLowMemory", null, null);
     }
 
     @Override
     public void onTrimMemory(int level) {
-        TriggerBefore("onTrimMemory", level);
+        TriggerBefore("onTrimMemory", new Object[]{level}, new Class[]{int.class});
         super.onTrimMemory(level);
-        TriggerAfter("onTrimMemory", level);
+        TriggerAfter("onTrimMemory", new Object[]{level}, new Class[]{int.class});
     }
 
     @Override
     public void onTerminate() {
-        TriggerBefore("onTerminate");
+        TriggerBefore("onTerminate", null, null);
         super.onTerminate();
-        TriggerAfter("onTerminate");
+        TriggerAfter("onTerminate", null, null);
     }
 }

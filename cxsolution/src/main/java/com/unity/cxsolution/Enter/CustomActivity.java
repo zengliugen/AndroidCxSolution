@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CustomActivity extends AppCompatActivity {
@@ -20,163 +22,167 @@ public class CustomActivity extends AppCompatActivity {
 
     /**
      * @param methodName 函数名称
-     * @param args       参数列表
+     * @param params     参数列表
+     * @param paramTypes 参数类型列表
      */
-    private static void TriggerBefore(String methodName, Object... args) {
-        Tool.TriggerBefore(Tool.ClassType_Activity, methodName, args);
+    private static void TriggerBefore(String methodName, Object[] params, Class[] paramTypes) {
+        Tool.TriggerBefore(Tool.ClassType_Activity, methodName, params, paramTypes);
     }
 
     /**
      * @param methodName 函数名称
-     * @param args       参数列表
+     * @param params     参数列表
+     * @param paramTypes 参数类型列表
      */
-    private static void TriggerAfter(String methodName, Object... args) {
-        Tool.TriggerAfter(Tool.ClassType_Activity, methodName, args);
+    private static void TriggerAfter(String methodName, Object[] params, Class[] paramTypes) {
+        Tool.TriggerAfter(Tool.ClassType_Activity, methodName, params, paramTypes);
     }
 
     @Override
     protected void onCreate(Bundle bundle) {
         CurrentActivity = this;
-        TriggerBefore("onCreate", bundle);
+        TriggerBefore("onCreate", new Object[]{bundle}, new Class[]{Bundle.class});
 
         super.onCreate(bundle);
 
-        TriggerAfter("onCreate", bundle);
+        TriggerAfter("onCreate", new Object[]{bundle}, new Class[]{Bundle.class});
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        TriggerBefore("onNewIntent", intent);
+        TriggerBefore("onNewIntent", new Object[]{intent}, new Class[]{Intent.class});
 
         super.onNewIntent(intent);
 
-        TriggerAfter("onNewIntent", intent);
+        TriggerAfter("onNewIntent", new Object[]{intent}, new Class[]{Intent.class});
     }
 
     @Override
     protected void onStart() {
-        TriggerBefore("onStart");
+        TriggerBefore("onStart", null, null);
 
         super.onStart();
 
-        TriggerAfter("onStart");
+        TriggerAfter("onStart", null, null);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        TriggerBefore("onRestoreInstanceState", savedInstanceState);
+        TriggerBefore("onRestoreInstanceState", new Object[]{savedInstanceState}, new Class[]{Bundle.class});
 
         super.onRestoreInstanceState(savedInstanceState);
 
-        TriggerAfter("onRestoreInstanceState", savedInstanceState);
+        TriggerAfter("onRestoreInstanceState", new Object[]{savedInstanceState}, new Class[]{Bundle.class});
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        TriggerBefore("onRestoreInstanceState", savedInstanceState, persistentState);
+        TriggerBefore("onRestoreInstanceState", new Object[]{savedInstanceState, persistentState}, new Class[]{Bundle.class, PersistableBundle.class});
 
         super.onRestoreInstanceState(savedInstanceState, persistentState);
 
-        TriggerAfter("onRestoreInstanceState", savedInstanceState, persistentState);
+        TriggerAfter("onRestoreInstanceState", new Object[]{savedInstanceState, persistentState}, new Class[]{Bundle.class, PersistableBundle.class});
     }
 
     @Override
     protected void onResume() {
-        TriggerBefore("onResume");
+        TriggerBefore("onResume", null, null);
 
         super.onResume();
 
-        TriggerAfter("onResume");
+        TriggerAfter("onResume", null, null);
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        TriggerBefore("onSaveInstanceState", outState);
+        TriggerBefore("onSaveInstanceState", new Object[]{outState}, new Class[]{Bundle.class});
 
         super.onSaveInstanceState(outState);
 
-        TriggerAfter("onSaveInstanceState", outState);
+        TriggerAfter("onSaveInstanceState", new Object[]{outState}, new Class[]{Bundle.class});
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        TriggerBefore("onSaveInstanceState", outState, outPersistentState);
+        TriggerBefore("onSaveInstanceState", new Object[]{outState, outPersistentState}, new Class[]{Bundle.class, PersistableBundle.class});
 
         super.onSaveInstanceState(outState, outPersistentState);
 
-        TriggerAfter("onSaveInstanceState", outState, outPersistentState);
+        TriggerAfter("onSaveInstanceState", new Object[]{outState, outPersistentState}, new Class[]{Bundle.class, PersistableBundle.class});
     }
 
     @Override
     protected void onPause() {
-        TriggerBefore("onPause");
+        TriggerBefore("onPause", null, null);
 
         super.onPause();
 
-        TriggerAfter("onPause");
+        TriggerAfter("onPause", null, null);
     }
 
     @Override
     protected void onStop() {
-        TriggerBefore("onStop");
+        TriggerBefore("onStop", null, null);
 
         super.onStop();
 
-        TriggerAfter("onStop");
+        TriggerAfter("onStop", null, null);
     }
 
     @Override
     protected void onRestart() {
-        TriggerBefore("onRestart");
+        TriggerBefore("onRestart", null, null);
 
         super.onRestart();
 
-        TriggerAfter("onRestart");
+        TriggerAfter("onRestart", null, null);
     }
 
     @Override
     protected void onDestroy() {
-        TriggerBefore("onDestroy");
+        TriggerBefore("onDestroy", null, null);
 
         super.onDestroy();
 
-        TriggerAfter("onDestroy");
+        TriggerAfter("onDestroy", null, null);
         CurrentActivity = null;
     }
 
     @Override
     public void onLowMemory() {
-        TriggerBefore("onLowMemory");
+        TriggerBefore("onLowMemory", null, null);
 
         super.onLowMemory();
 
-        TriggerAfter("onLowMemory");
+        TriggerAfter("onLowMemory", null, null);
     }
 
     @Override
     public void onTrimMemory(int level) {
-        TriggerBefore("onTrimMemory", level);
+        TriggerBefore("onTrimMemory", new Object[]{level}, new Class[]{int.class});
 
         super.onTrimMemory(level);
 
-        TriggerAfter("onTrimMemory", level);
+        TriggerAfter("onTrimMemory", new Object[]{level}, new Class[]{int.class});
     }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        TriggerBefore("Configuration", newConfig);
+        TriggerBefore("Configuration", new Object[]{newConfig}, new Class[]{Configuration.class});
 
         super.onConfigurationChanged(newConfig);
 
-        TriggerAfter("Configuration", newConfig);
+        TriggerAfter("Configuration", new Object[]{newConfig}, new Class[]{Configuration.class});
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        TriggerBefore("onWindowFocusChanged", hasFocus);
+        TriggerBefore("onWindowFocusChanged", new Object[]{hasFocus}, new Class[]{boolean.class});
 
         super.onWindowFocusChanged(hasFocus);
 
-        TriggerBefore("onWindowFocusChanged", hasFocus);
+        TriggerAfter("onWindowFocusChanged", new Object[]{hasFocus}, new Class[]{boolean.class});
     }
 }
