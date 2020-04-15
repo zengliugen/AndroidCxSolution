@@ -62,7 +62,7 @@ public class ActivityTool {
      * @param bundle             参数
      * @return 是否成功
      */
-    public static Boolean StartActivity(Activity activity, String sourcePackageName, String targetPackageName, String targetActivityName, Bundle bundle) {
+    public static Boolean StartActivityWithBundle(Activity activity, String sourcePackageName, String targetPackageName, String targetActivityName, Bundle bundle) {
         if (activity == null || sourcePackageName == null || targetPackageName == null || targetActivityName == null || bundle == null) {
             LogTool.e("StartActivity Fail. Params(activity,sourcePackageName,targetPackageName,targetActivityName,bundle) cant not is null.");
             return false;
@@ -89,12 +89,12 @@ public class ActivityTool {
      * @param bundle             参数
      * @return 是否成功
      */
-    public static Boolean StartSelfActivity(String sourcePackageName, String targetPackageName, String targetActivityName, Bundle bundle) {
+    public static Boolean StartSelfActivityWithBundle(String sourcePackageName, String targetPackageName, String targetActivityName, Bundle bundle) {
         if (sourcePackageName == null || targetPackageName == null || targetActivityName == null || bundle == null) {
             LogTool.e("StartSelfActivity Fail. Params(sourcePackageName,targetPackageName,targetActivityName,bundle) cant not is null.");
             return false;
         }
-        return StartActivity(SystemTool.GetCurrentActivity(), sourcePackageName, targetPackageName, targetActivityName, bundle);
+        return StartActivityWithBundle(SystemTool.GetCurrentActivity(), sourcePackageName, targetPackageName, targetActivityName, bundle);
     }
 
     /**
@@ -142,7 +142,7 @@ public class ActivityTool {
      * @param bundle      参数
      * @return 是否成功
      */
-    public static Boolean StartApp(Activity activity, String packageName, Bundle bundle) {
+    public static Boolean StartAppWithBundle(Activity activity, String packageName, Bundle bundle) {
         if (activity == null || packageName == null || bundle == null) {
             LogTool.e("StartApp Fail. Params(activity,packageName,bundle) cant not is null.");
             return false;
@@ -170,11 +170,11 @@ public class ActivityTool {
      * @param bundle      参数
      * @return 是否成功
      */
-    public static Boolean StartSelfApp(String packageName, Bundle bundle) {
+    public static Boolean StartSelfAppWithBundle(String packageName, Bundle bundle) {
         if (packageName == null || bundle == null) {
             LogTool.e("StartApp Fail. Params(packageName,bundle) cant not is null.");
             return false;
         }
-        return StartApp(SystemTool.GetCurrentActivity(), packageName, bundle);
+        return StartAppWithBundle(SystemTool.GetCurrentActivity(), packageName, bundle);
     }
 }

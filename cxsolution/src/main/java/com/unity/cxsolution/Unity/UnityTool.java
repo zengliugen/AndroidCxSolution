@@ -52,28 +52,27 @@ public class UnityTool {
      *
      * @param json json参数 "{permission:"权限名称",gameObjectName:"UNITY侧组件名称",methodName:"UNITY侧函数名称",exData="额外参数,原样回调到Unity"}"
      */
-    public static void RequestPermission(final String json) {
+    public static void RequestSelfPermission(final String json) {
         if (json == null) {
             LogTool.e("RequestPermission Fail. Params(json) cant not is null.");
             return;
         }
         try {
             final JSONObject jsonObject = JSONObject.parseObject(json);
-            String[] permissions = new String[1];
-            // 获取需要申请的权限列表
-            permissions[0] = jsonObject.getString("permission");
+            // 获取需要申请的权限
+            String permission = jsonObject.getString("permission");
             // 获取UNITY侧回调组件名称
             final String gameObjectName = jsonObject.getString("gameObjectName");
             // 获取UNITY侧回调函数名称
             final String methodName = jsonObject.getString("methodName");
             // 获取额外参数
             final String exData = jsonObject.getString("exData");
-            if (permissions[0] == null || gameObjectName == null || methodName == null) {
-                LogTool.e("RequestPermission Fail. Json analysis params(permission,gameObjectName,methodName) cant not is null.");
+            if (permission == null || gameObjectName == null || methodName == null) {
+                LogTool.e("RequestSelfPermission Fail. Json analysis params(permission,gameObjectName,methodName) cant not is null.");
                 return;
             }
             // 申请权限
-            PermissionHelper.RequestPermissions(SystemTool.GetCurrentActivity(), permissions, new PermissionInterface.PermissionsCallBack() {
+            PermissionTool.RequestSelfPermission(permission, new PermissionInterface.PermissionsCallBack() {
                 @Override
                 public void onRequestPermissionsResult(ArrayList<PermissionResultInfo> permissionResultInfoList) {
                     try {
@@ -109,7 +108,7 @@ public class UnityTool {
      *
      * @param json json参数 "{permissions:["权限名称一","权限名称二"],gameObjectName:"UNITY侧组件名称",methodName:"UNITY侧函数名称",exData="额外参数,原样回调到Unity"}"
      */
-    public static void RequestPermissions(final String json) {
+    public static void RequestSelfPermissions(final String json) {
         if (json == null) {
             LogTool.e("RequestPermissions Fail. Params(json) cant not is null.");
             return;
@@ -127,11 +126,11 @@ public class UnityTool {
             // 获取额外参数
             final String exData = jsonObject.getString("exData");
             if (permissions.length == 0 || gameObjectName == null || methodName == null) {
-                LogTool.e("RequestPermissions Fail. Json analysis params(permissions,gameObjectName,methodName) cant not is null.");
+                LogTool.e("RequestSelfPermissions Fail. Json analysis params(permissions,gameObjectName,methodName) cant not is null.");
                 return;
             }
             // 申请权限
-            PermissionHelper.RequestPermissions(SystemTool.GetCurrentActivity(), permissions, new PermissionInterface.PermissionsCallBack() {
+            PermissionTool.RequestSelfPermissions(permissions, new PermissionInterface.PermissionsCallBack() {
                 @Override
                 public void onRequestPermissionsResult(ArrayList<PermissionResultInfo> permissionResultInfoList) {
                     try {
@@ -168,7 +167,7 @@ public class UnityTool {
      * @param json json参数 "{targetPackageName:"com.xxx.xxx",targetActivityName:"com.xxx.xxx.MainActivity",paramKeys:["key1","key2"],paramValues:["value1","value2"]}"
      * @return 是否成功
      */
-    public static Boolean StartActivity(String json) {
+    public static Boolean StartSelfActivity(String json) {
         if (json == null) {
             LogTool.e("StartActivity Fail. Params(json) cant not is null.");
             return false;
@@ -193,7 +192,7 @@ public class UnityTool {
                     }
                 }
             }
-            return ActivityTool.StartSelfActivity(SystemTool.GetCurrentActivity().getPackageName(), targetPackageName, targetActivityName, bundle);
+            return ActivityTool.StartSelfActivityWithBundle(SystemTool.GetCurrentActivity().getPackageName(), targetPackageName, targetActivityName, bundle);
         } catch (Exception e) {
             LogTool.e(e);
             return false;
@@ -206,7 +205,7 @@ public class UnityTool {
      * @param json json参数
      * @return 是否成功 "{packageName:"com.xxx.xxx",paramKeys:["key1","key2"],paramValues:["value1","value2"]}"
      */
-    public static Boolean StartApp(String json) {
+    public static Boolean StartSelfApp(String json) {
         if (json == null) {
             LogTool.e("StartApp Fail. Params(json) cant not is null.");
             return false;
@@ -230,7 +229,7 @@ public class UnityTool {
                     }
                 }
             }
-            return ActivityTool.StartSelfApp(packageName, bundle);
+            return ActivityTool.StartSelfAppWithBundle(packageName, bundle);
         } catch (Exception e) {
             LogTool.e(e);
             return false;

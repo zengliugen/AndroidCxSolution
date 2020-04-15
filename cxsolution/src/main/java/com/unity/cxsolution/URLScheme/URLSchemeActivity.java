@@ -67,7 +67,7 @@ public class URLSchemeActivity extends AppCompatActivity {
                         for (String queryParameterName : queryParameterNames) {
                             bundle.putString(queryParameterName, CurrentUri.getQueryParameter(queryParameterName));
                         }
-                        ActivityTool.StartApp(this, packageName, bundle);
+                        ActivityTool.StartAppWithBundle(this, packageName, bundle);
                     }
                 }
             }
