@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ClassInfos sdkName="TestSdk">
-    <!-- 类名称,类的类型 -->
-    <Class className="com.unity.testsdk.TestSdk" classType="Application">
+<ClassInfos sdkName="Example">
+    <!-- 类名称,类的类型(触发类型) -->
+    <Class className="com.unity.cxsolution.Enter.Example_Application" classType="Application">
         <!-- 函数必须定义为(函数名+[_Before]), methodType="Before"在super之前执行 -->
         <Method methodName="onCreate_Before" methodType="Before" />
         <!-- 函数必须定义为(函数名+[_After]), methodType="After"在super之后执行 -->
         <Method methodName="onCreate_After" methodType="After" />
     </Class>
     <!-- 类名称,类的类型(触发类型) -->
-    <Class className="com.unity.testsdk.TestSdk" classType="Activity">
+    <Class className="com.unity.cxsolution.Enter.Example_Activity" classType="Activity">
         <!-- 函数必须定义为(函数名+[_Before]), methodType="Before"在super之前执行 -->
         <Method methodName="onCreate_Before" methodType="Before" />
         <!-- 函数必须定义为(函数名+[_After]), methodType="After"在super之后执行 -->

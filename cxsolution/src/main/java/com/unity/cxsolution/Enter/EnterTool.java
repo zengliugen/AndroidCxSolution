@@ -2,19 +2,17 @@ package com.unity.cxsolution.Enter;
 
 import android.content.res.AssetManager;
 
-import com.unity.cxsolution.Reflex.ReflexTool;
 import com.unity.cxsolution.Log.LogTool;
+import com.unity.cxsolution.Reflex.ReflexTool;
 import com.unity.cxsolution.System.SystemTool;
 
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * 入口工具
@@ -80,87 +78,77 @@ class EnterTool {
         if (isInit) {
             return;
         }
+        long startTime = System.nanoTime();
+        LogTool.d("开始初始化SDK函数信息列表");
         applicationMethodInfoList = new ArrayList<>();
         activityMethodInfoList = new ArrayList<>();
         try {
             AssetManager assetManager = SystemTool.GetCurrentAssetManager();
             assert assetManager != null;
             String[] configFiles = assetManager.list("EnterConfig");
-//            String[] configFiles = {"cxsolution/src/main/assets/EnterConfig/EnterConfig_default.xml"};
             if (configFiles != null) {
                 for (String configFile : configFiles) {
                     InputStream inputStream = assetManager.open("EnterConfig/" + configFile);
-//                    InputStream inputStream = new FileInputStream(configFile);
                     HandleEnterConfig(inputStream);
                 }
             }
         } catch (Exception e) {
             LogTool.e(e);
         }
-        LogTool.d("初始化SDK函数信息列表完成");
+        long consumingTime = System.nanoTime() - startTime;
+        LogTool.d("初始化SDK函数信息列表完成 time:%s(ns)%s(ms)", consumingTime, consumingTime / 1000000);
         isInit = true;
     }
 
     /**
      * 处理入口配置
      *
-     * @param inputStream 输入流
+     * @param inputStream 文件流
      */
     private static void HandleEnterConfig(InputStream inputStream) {
         if (inputStream == null) return;
         try {
-            SAXReader saxReader = new SAXReader();
-            Document document = saxReader.read(inputStream);
-            Element root = document.getRootElement();
-            Element temp;
-            String sdkName = null;
-            for (Iterator i = root.elementIterator(); i.hasNext(); ) {
-                temp = (Element) i.next();
-                if (temp != null) {
-                    if (temp.getName().equals("SDKName")) {
-                        sdkName = temp.getStringValue();
-                    } else if (temp.getName().equals("Class")) {
-                        String classType;
-                        classType = temp.attribute("classType").getValue();
-                        String className = null;
-                        ArrayList<String> beforeMethodNames = new ArrayList<>();
-                        ArrayList<String> afterMethodNames = new ArrayList<>();
-                        for (Iterator j = temp.elementIterator(); j.hasNext(); ) {
-                            temp = (Element) j.next();
-                            if (temp != null) {
-                                String keyName = temp.getName();
-                                switch (keyName) {
-                                    case "ClassName":
-                                        className = temp.getStringValue();
-                                        break;
-                                    case "BeforeMethods":
-                                        for (Iterator k = temp.elementIterator(); k.hasNext(); ) {
-                                            temp = (Element) k.next();
-                                            if (temp != null) {
-                                                if (temp.getName().equals("Method")) {
-                                                    beforeMethodNames.add(temp.getStringValue());
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case "AfterMethods":
-                                        for (Iterator k = temp.elementIterator(); k.hasNext(); ) {
-                                            temp = (Element) k.next();
-                                            if (temp != null) {
-                                                if (temp.getName().equals("Method")) {
-                                                    afterMethodNames.add(temp.getStringValue());
-                                                }
-                                            }
-                                        }
-                                        break;
-                                }
-                            }
+            XmlPullParser xmlPullParser = XmlPullParserFactory.newInstance().newPullParser();
+            xmlPullParser.setInput(inputStream, "utf-8");
+            String sdkName = "";
+            String className = "";
+            String classType = "";
+            ArrayList<String> beforeMethodNames = new ArrayList<>();
+            ArrayList<String> afterMethodNames = new ArrayList<>();
+            int eventType = xmlPullParser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        String startTagName = xmlPullParser.getName();
+                        switch (startTagName) {
+                            case "ClassInfos":
+                                sdkName = xmlPullParser.getAttributeValue(null, "sdkName");
+                                break;
+                            case "Class":
+                                className = xmlPullParser.getAttributeValue(null, "className");
+                                classType = xmlPullParser.getAttributeValue(null, "classType");
+                                break;
+                            case "Method":
+                                String methodType = xmlPullParser.getAttributeValue(null, "methodType");
+                                String methodName = xmlPullParser.getAttributeValue(null, "methodName");
+                                if (methodType.equals("Before"))
+                                    beforeMethodNames.add(methodName);
+                                else if (methodType.equals("After"))
+                                    afterMethodNames.add(methodName);
+                                break;
                         }
-                        HandleMethodInfo(sdkName, className, classType, beforeMethodNames, afterMethodNames);
-                    }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        if (xmlPullParser.getName().equals("Class")) {
+                            HandleMethodInfo(sdkName, className, classType, beforeMethodNames, afterMethodNames);
+                            beforeMethodNames.clear();
+                            afterMethodNames.clear();
+                        }
+                        break;
                 }
+                eventType = xmlPullParser.next();
             }
-            LogTool.d("处理SDK入口完成 SDKName:" + sdkName);
+            LogTool.d("处理SDK入口完成 sdkName:" + sdkName);
         } catch (Exception e) {
             LogTool.e(e);
         }
