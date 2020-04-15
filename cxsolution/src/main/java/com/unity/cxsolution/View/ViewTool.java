@@ -1,7 +1,10 @@
-package com.unity.cxsolution.Tools;
+package com.unity.cxsolution.View;
 
 import android.content.Context;
 import android.widget.Toast;
+
+import com.unity.cxsolution.Log.LogTool;
+import com.unity.cxsolution.System.SystemTool;
 
 /**
  * 显示工具
@@ -16,7 +19,7 @@ public class ViewTool {
      */
     public static void MakeText(Context context, String msg) {
         if (context == null || msg == null) {
-            LogTool.e("GetPathStorageInfoAsJSONObject Fail. Params(context,msg) cant not is null.");
+            LogTool.e("MakeText Fail. Params(context,msg) cant not is null.");
             return;
         }
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
@@ -29,7 +32,7 @@ public class ViewTool {
      */
     public static void MakeSelfText(String msg) {
         if (msg == null) {
-            LogTool.e("GetPathStorageInfoAsJSONObject Fail. Params(msg) cant not is null.");
+            LogTool.e("MakeSelfText Fail. Params(msg) cant not is null.");
             return;
         }
         Toast.makeText(SystemTool.GetCurrentContext(), msg, Toast.LENGTH_SHORT).show();

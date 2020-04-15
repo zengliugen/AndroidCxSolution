@@ -1,4 +1,4 @@
-package com.unity.cxsolution.Tools.URLScheme;
+package com.unity.cxsolution.URLScheme;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -6,12 +6,10 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.unity.cxsolution.BuildConfig;
 import com.unity.cxsolution.R;
-import com.unity.cxsolution.Tools.LogTool;
-import com.unity.cxsolution.Tools.SystemTool;
+import com.unity.cxsolution.Log.LogTool;
+import com.unity.cxsolution.System.ActivityTool;
+import com.unity.cxsolution.System.SystemTool;
 
 import java.util.List;
 import java.util.Set;
@@ -69,7 +67,7 @@ public class URLSchemeActivity extends AppCompatActivity {
                         for (String queryParameterName : queryParameterNames) {
                             bundle.putString(queryParameterName, CurrentUri.getQueryParameter(queryParameterName));
                         }
-                        SystemTool.StartApp(this, packageName, bundle);
+                        ActivityTool.StartApp(this, packageName, bundle);
                     }
                 }
             }

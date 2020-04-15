@@ -1,11 +1,13 @@
-package com.unity.cxsolution.Tools;
+package com.unity.cxsolution.Reflex;
+
+import com.unity.cxsolution.Log.LogTool;
 
 import java.lang.reflect.Method;
 
 /**
  * 调用函数工具
  */
-public class CallMethodTool {
+public class ReflexTool {
     /**
      * 调用静态函数
      *

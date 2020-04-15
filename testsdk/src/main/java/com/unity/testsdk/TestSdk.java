@@ -2,20 +2,20 @@ package com.unity.testsdk;
 
 import android.os.Bundle;
 
+import com.unity.cxsolution.Log.Logger;
+import com.unity.cxsolution.View.ViewTool;
+
+
 public class TestSdk {
-    public static void Add(Byte a, Byte b) {
-        System.out.println("a+b=" + (a + b));
-    }
+    private static Logger logger = new Logger("TestSdk");
 
     public static void onCreate_Before(Bundle bundle) {
-        System.out.println("onCreate_Before");
+        logger.d("onCreate_Before");
+        ViewTool.MakeSelfText("TestSdk onCreate_Before");
     }
 
     public static void onCreate_After(Bundle bundle) {
-        System.out.println("onCreate_After");
-    }
-
-    public static void Test_Before(Integer a, Integer b) {
-        System.out.println("Test_Before:" + (a + b));
+        logger.d("onCreate_After");
+        ViewTool.MakeSelfText("TestSdk onCreate_After");
     }
 }

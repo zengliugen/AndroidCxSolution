@@ -1,4 +1,4 @@
-package com.unity.cxsolution.Tools.Permission;
+package com.unity.cxsolution.Permission;
 
 import java.util.ArrayList;
 

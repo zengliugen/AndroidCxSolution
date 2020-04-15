@@ -1,7 +1,6 @@
-package com.unity.cxsolution.Tools.Permission;
+package com.unity.cxsolution.Permission;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.util.SparseArray;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,8 +17,8 @@ import java.util.Random;
 /**
  * 权限申请用Fragment
  */
-@SuppressWarnings("deprecation")
-public class PermissionFragment extends Fragment {
+
+public class PermissionFragmentAndroidx extends Fragment {
     /**
      * 权限申请回调列表
      */
@@ -37,8 +37,8 @@ public class PermissionFragment extends Fragment {
      *
      * @return 实例对象
      */
-    public static PermissionFragment NewInstance() {
-        return new PermissionFragment();
+    static PermissionFragmentAndroidx NewInstance() {
+        return new PermissionFragmentAndroidx();
     }
 
     @Override
@@ -66,10 +66,10 @@ public class PermissionFragment extends Fragment {
     /**
      * 请求权限
      *
-     * @param permissions         权限名称列表
+     * @param permissions        权限名称列表
      * @param permissionsCallBack 权限申请回调
      */
-    public void requestPermissions(@NonNull String[] permissions, PermissionInterface.PermissionsCallBack permissionsCallBack) {
+    void requestPermissions(@NonNull String[] permissions, PermissionInterface.PermissionsCallBack permissionsCallBack) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int requestCode = MakeRequestCode();
             permissionCallbacks.put(requestCode, permissionsCallBack);

@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <ScrollView
+        android:id="@+id/btn_request_permission"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,22 +21,10 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_storage_info"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/btn_msg_storage_info" />
-
-            <Button
-                android:id="@+id/btn_request_permissions"
+                android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_msg_request_permission" />
-            <Button
-                android:id="@+id/btn_open_url"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_msg_open_url" />
-
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,9 +2,9 @@ package com.unity.cxsolution.Enter;
 
 import android.content.res.AssetManager;
 
-import com.unity.cxsolution.Tools.CallMethodTool;
-import com.unity.cxsolution.Tools.LogTool;
-import com.unity.cxsolution.Tools.SystemTool;
+import com.unity.cxsolution.Reflex.ReflexTool;
+import com.unity.cxsolution.Log.LogTool;
+import com.unity.cxsolution.System.SystemTool;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -19,7 +19,7 @@ import java.util.Iterator;
 /**
  * 入口工具
  */
-class Tool {
+class EnterTool {
 
     /**
      * 函数信息
@@ -211,7 +211,7 @@ class Tool {
             return;
         }
         InitMethodInfoList();
-        LogTool.d(String.format("Trigger classType:%s methodName:%s params:%s\n", classType, methodName, Arrays.toString(params)));
+        LogTool.d("Trigger classType:%s methodName:%s params:%s\n", classType, methodName, Arrays.toString(params));
         try {
             if (params == null) {
                 params = new Object[0];
@@ -237,7 +237,7 @@ class Tool {
                             }
                         }
                         if (isSame) {
-                            CallMethodTool.StaticCall(methodInfo.className, methodName, params, paramTypes);
+                            ReflexTool.StaticCall(methodInfo.className, methodName, params, paramTypes);
                         }
                     }
                 }

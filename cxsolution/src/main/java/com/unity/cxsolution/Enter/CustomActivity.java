@@ -26,7 +26,7 @@ public class CustomActivity extends AppCompatActivity {
      * @param paramTypes 参数类型列表
      */
     private static void TriggerBefore(String methodName, Object[] params, Class[] paramTypes) {
-        Tool.TriggerBefore(Tool.ClassType_Activity, methodName, params, paramTypes);
+        EnterTool.TriggerBefore(EnterTool.ClassType_Activity, methodName, params, paramTypes);
     }
 
     /**
@@ -35,7 +35,7 @@ public class CustomActivity extends AppCompatActivity {
      * @param paramTypes 参数类型列表
      */
     private static void TriggerAfter(String methodName, Object[] params, Class[] paramTypes) {
-        Tool.TriggerAfter(Tool.ClassType_Activity, methodName, params, paramTypes);
+        EnterTool.TriggerAfter(EnterTool.ClassType_Activity, methodName, params, paramTypes);
     }
 
     @Override

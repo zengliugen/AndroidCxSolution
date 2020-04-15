@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".Tools.URLScheme.URLSchemeActivity"
+            android:name=".URLScheme.URLSchemeActivity"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

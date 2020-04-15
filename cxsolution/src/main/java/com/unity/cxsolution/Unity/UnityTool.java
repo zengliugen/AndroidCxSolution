@@ -1,13 +1,19 @@
-package com.unity.cxsolution.Tools;
+package com.unity.cxsolution.Unity;
 
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.unity.cxsolution.Tools.Permission.PermissionHelper;
-import com.unity.cxsolution.Tools.Permission.PermissionInterface;
-import com.unity.cxsolution.Tools.Permission.PermissionResultInfo;
+import com.unity.cxsolution.Log.LogTool;
+import com.unity.cxsolution.Permission.PermissionHelper;
+import com.unity.cxsolution.Permission.PermissionInterface;
+import com.unity.cxsolution.Permission.PermissionResultInfo;
+import com.unity.cxsolution.Permission.PermissionTool;
+import com.unity.cxsolution.System.ActivityTool;
+import com.unity.cxsolution.System.StorageTool;
+import com.unity.cxsolution.System.SystemTool;
+import com.unity.cxsolution.URLScheme.URLSchemeTool;
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
@@ -15,7 +21,7 @@ import java.util.ArrayList;
 /**
  * 封装提供给UNITY使用的接口
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class UnityTool {
     /**
      * 发送消息到UNITY
@@ -38,13 +44,13 @@ public class UnityTool {
      * @return 是否拥有权限
      */
     public static Boolean CheckSelfPermission(String permission) {
-        return SystemTool.CheckSelfPermission(permission);
+        return PermissionTool.CheckSelfPermission(permission);
     }
 
     /**
      * 在当前Activity对象中进行权限申请
      *
-     * @param json json参数 "{permission:"权限名称",gameObjectName:"UNITY侧组件名称",methodName:"UNITY侧函数名称"}"
+     * @param json json参数 "{permission:"权限名称",gameObjectName:"UNITY侧组件名称",methodName:"UNITY侧函数名称",exData="额外参数,原样回调到Unity"}"
      */
     public static void RequestPermission(final String json) {
         if (json == null) {
@@ -52,7 +58,7 @@ public class UnityTool {
             return;
         }
         try {
-            JSONObject jsonObject = JSONObject.parseObject(json);
+            final JSONObject jsonObject = JSONObject.parseObject(json);
             String[] permissions = new String[1];
             // 获取需要申请的权限列表
             permissions[0] = jsonObject.getString("permission");
@@ -60,6 +66,8 @@ public class UnityTool {
             final String gameObjectName = jsonObject.getString("gameObjectName");
             // 获取UNITY侧回调函数名称
             final String methodName = jsonObject.getString("methodName");
+            // 获取额外参数
+            final String exData = jsonObject.getString("exData");
             if (permissions[0] == null || gameObjectName == null || methodName == null) {
                 LogTool.e("RequestPermission Fail. Json analysis params(permission,gameObjectName,methodName) cant not is null.");
                 return;
@@ -70,20 +78,25 @@ public class UnityTool {
                 public void onRequestPermissionsResult(ArrayList<PermissionResultInfo> permissionResultInfoList) {
                     try {
                         String resultJson = JSONObject.toJSONString(permissionResultInfoList);
-                        SendMessageToUnity(gameObjectName, methodName, resultJson);
+                        JSONObject resultJsonObject = new JSONObject();
+                        resultJsonObject.put("result", resultJson);
+                        resultJsonObject.put("exData", exData);
+                        SendMessageToUnity(gameObjectName, methodName, resultJsonObject.toJSONString());
                     } catch (Exception e) {
                         LogTool.e(e);
-                        JSONObject errorJson = new JSONObject();
-                        errorJson.put("error", e.getMessage());
-                        SendMessageToUnity(gameObjectName, methodName, errorJson.toJSONString());
+                        JSONObject errorJsonObject = new JSONObject();
+                        errorJsonObject.put("error", e.getMessage());
+                        errorJsonObject.put("exData", exData);
+                        SendMessageToUnity(gameObjectName, methodName, errorJsonObject.toJSONString());
                     }
                 }
 
                 @Override
                 public void onError(String error) {
-                    JSONObject errorJson = new JSONObject();
-                    errorJson.put("error", error);
-                    SendMessageToUnity(gameObjectName, methodName, errorJson.toJSONString());
+                    JSONObject errorJsonObject = new JSONObject();
+                    errorJsonObject.put("error", error);
+                    errorJsonObject.put("exData", exData);
+                    SendMessageToUnity(gameObjectName, methodName, errorJsonObject.toJSONString());
                 }
             });
         } catch (Exception e) {
@@ -94,7 +107,7 @@ public class UnityTool {
     /**
      * 在当前Activity对象中进行权限申请
      *
-     * @param json json参数 "{permissions:["权限名称一","权限名称二"],gameObjectName:"UNITY侧组件名称",methodName:"UNITY侧函数名称"}"
+     * @param json json参数 "{permissions:["权限名称一","权限名称二"],gameObjectName:"UNITY侧组件名称",methodName:"UNITY侧函数名称",exData="额外参数,原样回调到Unity"}"
      */
     public static void RequestPermissions(final String json) {
         if (json == null) {
@@ -111,6 +124,8 @@ public class UnityTool {
             final String gameObjectName = jsonObject.getString("gameObjectName");
             // 获取UNITY侧回调函数名称
             final String methodName = jsonObject.getString("methodName");
+            // 获取额外参数
+            final String exData = jsonObject.getString("exData");
             if (permissions.length == 0 || gameObjectName == null || methodName == null) {
                 LogTool.e("RequestPermissions Fail. Json analysis params(permissions,gameObjectName,methodName) cant not is null.");
                 return;
@@ -121,20 +136,25 @@ public class UnityTool {
                 public void onRequestPermissionsResult(ArrayList<PermissionResultInfo> permissionResultInfoList) {
                     try {
                         String resultJson = JSONObject.toJSONString(permissionResultInfoList);
-                        SendMessageToUnity(gameObjectName, methodName, resultJson);
+                        JSONObject resultJsonObject = new JSONObject();
+                        resultJsonObject.put("result", resultJson);
+                        resultJsonObject.put("exData", exData);
+                        SendMessageToUnity(gameObjectName, methodName, resultJsonObject.toJSONString());
                     } catch (Exception e) {
                         LogTool.e(e);
-                        JSONObject errorJson = new JSONObject();
-                        errorJson.put("error", e.getMessage());
-                        SendMessageToUnity(gameObjectName, methodName, errorJson.toJSONString());
+                        JSONObject errorJsonObject = new JSONObject();
+                        errorJsonObject.put("error", e.getMessage());
+                        errorJsonObject.put("exData", exData);
+                        SendMessageToUnity(gameObjectName, methodName, errorJsonObject.toJSONString());
                     }
                 }
 
                 @Override
                 public void onError(String error) {
-                    JSONObject errorJson = new JSONObject();
-                    errorJson.put("error", error);
-                    SendMessageToUnity(gameObjectName, methodName, errorJson.toJSONString());
+                    JSONObject errorJsonObject = new JSONObject();
+                    errorJsonObject.put("error", error);
+                    errorJsonObject.put("exData", exData);
+                    SendMessageToUnity(gameObjectName, methodName, errorJsonObject.toJSONString());
                 }
             });
         } catch (Exception e) {
@@ -173,7 +193,7 @@ public class UnityTool {
                     }
                 }
             }
-            return SystemTool.StartActivity(SystemTool.GetCurrentActivity().getPackageName(), targetPackageName, targetActivityName, bundle);
+            return ActivityTool.StartSelfActivity(SystemTool.GetCurrentActivity().getPackageName(), targetPackageName, targetActivityName, bundle);
         } catch (Exception e) {
             LogTool.e(e);
             return false;
@@ -210,7 +230,7 @@ public class UnityTool {
                     }
                 }
             }
-            return SystemTool.StartApp(packageName, bundle);
+            return ActivityTool.StartSelfApp(packageName, bundle);
         } catch (Exception e) {
             LogTool.e(e);
             return false;
@@ -218,12 +238,39 @@ public class UnityTool {
     }
 
     /**
+     * 获取指定路径的存储信息
+     *
+     * @param path 路径
+     * @return 存储信息Json字符串
+     */
+    public static String GetStorageInfoAsJson(String path) {
+        return StorageTool.GetStorageInfoAsJson(path);
+    }
+
+    /**
      * 获取自身存储信息
      *
      * @return 存储信息Json字符串
      */
-    public static String GetSelfStorageInfo() {
-        return SystemTool.GetSelfStorageInfo();
+    public static String GetSelfStorageInfoAsJson() {
+        return StorageTool.GetSelfStorageInfoAsJson();
+    }
+
+    /**
+     * 获取指定路径空余存储大小
+     *
+     * @param path 路径
+     * @return 空余存储大小
+     */
+    public static Long GetFreeStorageSize(String path) {
+        Long freeSize = 0L;
+        try {
+            JSONObject storageInfoJsonObject = StorageTool.GetStorageInfoAsJSONObject(path);
+            freeSize = storageInfoJsonObject.getLong("free_bytes");
+        } catch (Exception e) {
+            LogTool.e(e);
+        }
+        return freeSize;
     }
 
     /**
@@ -234,8 +281,7 @@ public class UnityTool {
     public static Long GetSelfFreeStorageSize() {
         Long freeSize = 0L;
         try {
-            String storageInfoString = GetSelfStorageInfo();
-            JSONObject storageInfoJsonObject = JSONObject.parseObject(storageInfoString);
+            JSONObject storageInfoJsonObject = StorageTool.GetSelfStorageInfoAsJSONObject();
             freeSize = storageInfoJsonObject.getLong("free_bytes");
         } catch (Exception e) {
             LogTool.e(e);
@@ -244,12 +290,12 @@ public class UnityTool {
     }
 
     /**
-     * 获取当前SchemeUri信息
+     * 获取当前SchemeUri信息(最后一次触发的Url信息)
      *
      * @return SchemeUri信息Json字符串
      */
     public static String GetCurrentSchemeUriInfo() {
-        Uri uri = SystemTool.GetCurrentSchemeUri();
+        Uri uri = URLSchemeTool.GetCurrentSchemeUri();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("url", uri.toString());

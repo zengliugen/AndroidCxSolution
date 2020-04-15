@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ClassInfos>
     <SDKName>TestSDK</SDKName>
-    <Class classType="Application">
-        <ClassName>com.unity.testsdk.TestSdk</ClassName>
-        <BeforeMethods>
-            <!-- 函数必须定义为(函数名+[_Before]),在super之前执行 -->
-            <Method>onCreate_Before</Method>
-        </BeforeMethods>
-        <AfterMethods>
-            <!-- 函数必须定义为(函数名+[_After]),在super之后执行 -->
-            <Method>onCreate_After</Method>
-        </AfterMethods>
-    </Class>
+<!--    <Class classType="Application">-->
+<!--        <ClassName>com.unity.testsdk.TestSdk</ClassName>-->
+<!--        <BeforeMethods>-->
+<!--            &lt;!&ndash; 函数必须定义为(函数名+[_Before]),在super之前执行 &ndash;&gt;-->
+<!--            <Method>onCreate_Before</Method>-->
+<!--        </BeforeMethods>-->
+<!--        <AfterMethods>-->
+<!--            &lt;!&ndash; 函数必须定义为(函数名+[_After]),在super之后执行 &ndash;&gt;-->
+<!--            <Method>onCreate_After</Method>-->
+<!--        </AfterMethods>-->
+<!--    </Class>-->
     <Class classType="Activity">
         <ClassName>com.unity.testsdk.TestSdk</ClassName>
         <BeforeMethods>

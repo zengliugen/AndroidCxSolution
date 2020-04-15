@@ -1,4 +1,4 @@
-package com.unity.cxsolution.Tools.Permission;
+package com.unity.cxsolution.Permission;
 
 import android.app.Activity;
 import android.os.Build;
@@ -6,7 +6,7 @@ import android.os.Build;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.unity.cxsolution.Tools.LogTool;
+import com.unity.cxsolution.Log.LogTool;
 
 /**
  * 权限申请辅助者
