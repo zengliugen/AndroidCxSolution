@@ -28,13 +28,35 @@ public class UnityTool {
      *
      * @param gameObjectName UNITY侧组件名称
      * @param methodName     UNITY侧函数名称
-     * @param message        参数
+     * @param message        消息
      */
     public static void SendMessageToUnity(String gameObjectName, String methodName, String message) {
         if (gameObjectName == null || methodName == null) {
             return;
         }
         UnityPlayer.UnitySendMessage(gameObjectName, methodName, message);
+    }
+
+    /**
+     * 发送消息到UNITY(将消息关键字与消息组装为json)
+     *
+     * @param gameObjectName UNITY侧组件名称
+     * @param methodName     UNITY侧函数名称
+     * @param messageKey     消息关键字
+     * @param message        消息
+     */
+    public static void SendMessageToUnityAsJson(String gameObjectName, String methodName, String messageKey, String message) {
+        if (gameObjectName == null || methodName == null || messageKey == null) {
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("messageKey", messageKey);
+            jsonObject.put("message", message);
+            SendMessageToUnity(gameObjectName, methodName, jsonObject.toJSONString());
+        } catch (Exception e) {
+            LogTool.e(e);
+        }
     }
 
     /**
@@ -80,13 +102,13 @@ public class UnityTool {
                         JSONObject resultJsonObject = new JSONObject();
                         resultJsonObject.put("result", resultJson);
                         resultJsonObject.put("exData", exData);
-                        SendMessageToUnity(gameObjectName, methodName, resultJsonObject.toJSONString());
+                        SendMessageToUnityAsJson(gameObjectName, methodName, "RequestSelfPermission", resultJsonObject.toJSONString());
                     } catch (Exception e) {
                         LogTool.e(e);
                         JSONObject errorJsonObject = new JSONObject();
                         errorJsonObject.put("error", e.getMessage());
                         errorJsonObject.put("exData", exData);
-                        SendMessageToUnity(gameObjectName, methodName, errorJsonObject.toJSONString());
+                        SendMessageToUnityAsJson(gameObjectName, methodName, "RequestSelfPermission", errorJsonObject.toJSONString());
                     }
                 }
 
@@ -95,7 +117,7 @@ public class UnityTool {
                     JSONObject errorJsonObject = new JSONObject();
                     errorJsonObject.put("error", error);
                     errorJsonObject.put("exData", exData);
-                    SendMessageToUnity(gameObjectName, methodName, errorJsonObject.toJSONString());
+                    SendMessageToUnityAsJson(gameObjectName, methodName, "RequestSelfPermission", errorJsonObject.toJSONString());
                 }
             });
         } catch (Exception e) {
@@ -138,13 +160,13 @@ public class UnityTool {
                         JSONObject resultJsonObject = new JSONObject();
                         resultJsonObject.put("result", resultJson);
                         resultJsonObject.put("exData", exData);
-                        SendMessageToUnity(gameObjectName, methodName, resultJsonObject.toJSONString());
+                        SendMessageToUnityAsJson(gameObjectName, methodName, "RequestSelfPermissions", resultJsonObject.toJSONString());
                     } catch (Exception e) {
                         LogTool.e(e);
                         JSONObject errorJsonObject = new JSONObject();
                         errorJsonObject.put("error", e.getMessage());
                         errorJsonObject.put("exData", exData);
-                        SendMessageToUnity(gameObjectName, methodName, errorJsonObject.toJSONString());
+                        SendMessageToUnityAsJson(gameObjectName, methodName, "RequestSelfPermissions", errorJsonObject.toJSONString());
                     }
                 }
 
@@ -153,7 +175,7 @@ public class UnityTool {
                     JSONObject errorJsonObject = new JSONObject();
                     errorJsonObject.put("error", error);
                     errorJsonObject.put("exData", exData);
-                    SendMessageToUnity(gameObjectName, methodName, errorJsonObject.toJSONString());
+                    SendMessageToUnityAsJson(gameObjectName, methodName, "RequestSelfPermissions", errorJsonObject.toJSONString());
                 }
             });
         } catch (Exception e) {
