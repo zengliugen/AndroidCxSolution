@@ -69,7 +69,7 @@ class EnterTool {
     /**
      * 是否初始化
      */
-    private static Boolean isInit = false;
+    private static boolean isInit = false;
 
     /**
      * 初始化函数信息列表

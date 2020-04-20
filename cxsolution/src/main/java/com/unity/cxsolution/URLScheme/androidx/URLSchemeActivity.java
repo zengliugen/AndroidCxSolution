@@ -1,4 +1,4 @@
-package com.unity.cxsolution.URLScheme;
+package com.unity.cxsolution.URLScheme.androidx;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,7 +57,7 @@ public class URLSchemeActivity extends AppCompatActivity {
             if (scheme == null || host == null) {
                 return;
             }
-            if (scheme.equals(SystemTool.GetCurrentActivity().getResources().getString(R.string.url_scheme_name))) {
+            if (scheme.equals(SystemTool.GetCurrentActivity().getResources().getString(R.string.url_scheme_name_androidx))) {
                 if (host.equals(OpenAppHost)) {
                     List<String> pathSplits = CurrentUri.getPathSegments();
                     if (pathSplits.size() == 1) {

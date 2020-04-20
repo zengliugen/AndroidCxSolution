@@ -3,8 +3,7 @@ package com.unity.cxsolution.Enter;
 import android.app.Application;
 import android.content.res.Configuration;
 
-import androidx.annotation.NonNull;
-
+@SuppressWarnings("NullableProblems")
 public class CustomApplication extends Application {
     /**
      * 当前Application对象
@@ -38,7 +37,7 @@ public class CustomApplication extends Application {
     }
 
     @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig) {
         TriggerBefore("onConfigurationChanged", new Object[]{newConfig}, new Class[]{Configuration.class});
         super.onConfigurationChanged(newConfig);
         TriggerAfter("onConfigurationChanged", new Object[]{newConfig}, new Class[]{Configuration.class});

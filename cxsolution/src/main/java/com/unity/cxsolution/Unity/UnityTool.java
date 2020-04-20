@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.unity.cxsolution.Log.LogTool;
-import com.unity.cxsolution.Permission.PermissionHelper;
 import com.unity.cxsolution.Permission.PermissionInterface;
 import com.unity.cxsolution.Permission.PermissionResultInfo;
 import com.unity.cxsolution.Permission.PermissionTool;
@@ -14,6 +13,7 @@ import com.unity.cxsolution.System.ActivityTool;
 import com.unity.cxsolution.System.StorageTool;
 import com.unity.cxsolution.System.SystemTool;
 import com.unity.cxsolution.URLScheme.URLSchemeTool;
+import com.unity.cxsolution.View.ViewTool;
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class UnityTool {
      * @param permission 权限名称
      * @return 是否拥有权限
      */
-    public static Boolean CheckSelfPermission(String permission) {
+    public static boolean CheckSelfPermission(String permission) {
         return PermissionTool.CheckSelfPermission(permission);
     }
 
@@ -189,7 +189,7 @@ public class UnityTool {
      * @param json json参数 "{targetPackageName:"com.xxx.xxx",targetActivityName:"com.xxx.xxx.MainActivity",paramKeys:["key1","key2"],paramValues:["value1","value2"]}"
      * @return 是否成功
      */
-    public static Boolean StartSelfActivity(String json) {
+    public static boolean StartSelfActivity(String json) {
         if (json == null) {
             LogTool.e("StartActivity Fail. Params(json) cant not is null.");
             return false;
@@ -227,7 +227,7 @@ public class UnityTool {
      * @param json json参数
      * @return 是否成功 "{packageName:"com.xxx.xxx",paramKeys:["key1","key2"],paramValues:["value1","value2"]}"
      */
-    public static Boolean StartSelfApp(String json) {
+    public static boolean StartSelfApp(String json) {
         if (json == null) {
             LogTool.e("StartApp Fail. Params(json) cant not is null.");
             return false;
@@ -283,7 +283,7 @@ public class UnityTool {
      * @param path 路径
      * @return 空余存储大小
      */
-    public static Long GetFreeStorageSize(String path) {
+    public static long GetFreeStorageSize(String path) {
         Long freeSize = 0L;
         try {
             JSONObject storageInfoJsonObject = StorageTool.GetStorageInfoAsJSONObject(path);
@@ -299,7 +299,7 @@ public class UnityTool {
      *
      * @return 空余存储大小
      */
-    public static Long GetSelfFreeStorageSize() {
+    public static long GetSelfFreeStorageSize() {
         Long freeSize = 0L;
         try {
             JSONObject storageInfoJsonObject = StorageTool.GetSelfStorageInfoAsJSONObject();
@@ -319,18 +319,29 @@ public class UnityTool {
         Uri uri = URLSchemeTool.GetCurrentSchemeUri();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("url", uri.toString());
-            jsonObject.put("scheme", uri.getScheme());
-            jsonObject.put("host", uri.getHost());
-            jsonObject.put("port", uri.getPort());
-            jsonObject.put("path", uri.getPath());
-            jsonObject.put("pathSegments", uri.getPathSegments());
-            jsonObject.put("encodedPath", uri.getEncodedPath());
-            jsonObject.put("query", uri.getQuery());
+            if (uri != null) {
+                jsonObject.put("url", uri.toString());
+                jsonObject.put("scheme", uri.getScheme());
+                jsonObject.put("host", uri.getHost());
+                jsonObject.put("port", uri.getPort());
+                jsonObject.put("path", uri.getPath());
+                jsonObject.put("pathSegments", uri.getPathSegments());
+                jsonObject.put("encodedPath", uri.getEncodedPath());
+                jsonObject.put("query", uri.getQuery());
+            }
         } catch (Exception e) {
             LogTool.e(e);
             jsonObject.put("error", e.getMessage());
         }
         return jsonObject.toJSONString();
+    }
+
+    /**
+     * 展示消息提示
+     *
+     * @param msg 消息
+     */
+    public static void MakeSelfText(String msg) {
+        ViewTool.MakeSelfText(msg);
     }
 }

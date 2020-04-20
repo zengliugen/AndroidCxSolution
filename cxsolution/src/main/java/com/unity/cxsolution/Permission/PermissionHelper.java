@@ -11,6 +11,7 @@ import com.unity.cxsolution.Log.LogTool;
 /**
  * 权限申请辅助者
  */
+@SuppressWarnings("WeakerAccess")
 public class PermissionHelper {
     /**
      * 权限申请标签
@@ -81,10 +82,16 @@ public class PermissionHelper {
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (activity.getClass().isAssignableFrom(AppCompatActivity.class)) {
-                PermissionFragmentAndroidx permissionFragmentAndroidx = GetPermissionFragmentX((AppCompatActivity) activity);
-                permissionFragmentAndroidx.requestPermissions(permissions, permissionsCallBack);
-            } else {
+            try {
+                if (activity.getClass().isAssignableFrom(AppCompatActivity.class)) {
+                    PermissionFragmentAndroidx permissionFragmentAndroidx = GetPermissionFragmentX((AppCompatActivity) activity);
+                    permissionFragmentAndroidx.requestPermissions(permissions, permissionsCallBack);
+                } else {
+                    PermissionFragment permissionFragment = GetPermissionFragment(activity);
+                    permissionFragment.requestPermissions(permissions, permissionsCallBack);
+                }
+            } catch (NoClassDefFoundError ignored) {
+                // 可能有项目并未使用androidX
                 PermissionFragment permissionFragment = GetPermissionFragment(activity);
                 permissionFragment.requestPermissions(permissions, permissionsCallBack);
             }

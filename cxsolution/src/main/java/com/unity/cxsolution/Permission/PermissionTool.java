@@ -18,7 +18,7 @@ public class PermissionTool {
      * @param permission 权限名称
      * @return 是否拥有权限
      */
-    public static Boolean CheckPermission(Context context, String permission) {
+    public static boolean CheckPermission(Context context, String permission) {
         if (context == null || permission == null) {
             LogTool.e("CheckPermission Fail. Params(context,permission) cant not is null.");
             return false;
@@ -32,7 +32,7 @@ public class PermissionTool {
      * @param permission 权限名称
      * @return 是否拥有权限
      */
-    public static Boolean CheckSelfPermission(String permission) {
+    public static boolean CheckSelfPermission(String permission) {
         return CheckPermission(GetCurrentContext(), permission);
     }
 
@@ -43,7 +43,7 @@ public class PermissionTool {
      * @param permission  权限名称
      * @return 是否拥有权限
      */
-    public static Boolean CheckAppPermission(String packageName, String permission) {
+    public static boolean CheckAppPermission(String packageName, String permission) {
         if (packageName == null || permission == null) {
             LogTool.e("CheckAppPermission Fail. Params(packageName,permission) cant not is null.");
             return false;

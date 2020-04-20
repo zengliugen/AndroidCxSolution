@@ -109,7 +109,7 @@ public class PermissionFragmentAndroidx extends Fragment {
             permissionResultInfo.PermissionName = permissions[i];
             permissionResultInfo.IsAccept = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             permissionResultInfo.ResultCode = grantResults[i];
-            permissionResultInfo.IsNeverInquiry = ActivityCompat.shouldShowRequestPermissionRationale(currentActivity, permissions[i]);
+            permissionResultInfo.ShouldShowRequestPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(currentActivity, permissions[i]);
             permissionResultInfoList.add(permissionResultInfo);
         }
         permissionsCallBack.onRequestPermissionsResult(permissionResultInfoList);

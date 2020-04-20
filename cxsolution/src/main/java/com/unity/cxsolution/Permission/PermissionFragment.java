@@ -7,17 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.SparseArray;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * 权限申请用Fragment
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "NullableProblems"})
 public class PermissionFragment extends Fragment {
     /**
      * 权限申请回调列表
@@ -42,7 +38,7 @@ public class PermissionFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         currentActivity = getActivity();
@@ -69,7 +65,7 @@ public class PermissionFragment extends Fragment {
      * @param permissions         权限名称列表
      * @param permissionsCallBack 权限申请回调
      */
-    public void requestPermissions(@NonNull String[] permissions, PermissionInterface.PermissionsCallBack permissionsCallBack) {
+    public void requestPermissions(String[] permissions, PermissionInterface.PermissionsCallBack permissionsCallBack) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int requestCode = MakeRequestCode();
             permissionCallbacks.put(requestCode, permissionsCallBack);
@@ -85,7 +81,7 @@ public class PermissionFragment extends Fragment {
      * @param grantResults 授权结果
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         HandleRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -97,7 +93,7 @@ public class PermissionFragment extends Fragment {
      * @param permissions  权限名称列表
      * @param grantResults 授权结果
      */
-    private void HandleRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    private void HandleRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
         PermissionInterface.PermissionsCallBack permissionsCallBack = permissionCallbacks.get(requestCode);
         if (permissionsCallBack == null) {
             return;
@@ -109,7 +105,9 @@ public class PermissionFragment extends Fragment {
             permissionResultInfo.PermissionName = permissions[i];
             permissionResultInfo.IsAccept = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             permissionResultInfo.ResultCode = grantResults[i];
-            permissionResultInfo.IsNeverInquiry = ActivityCompat.shouldShowRequestPermissionRationale(currentActivity, permissions[i]);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                permissionResultInfo.ShouldShowRequestPermissionRationale = currentActivity.shouldShowRequestPermissionRationale(permissions[i]);
+            }
             permissionResultInfoList.add(permissionResultInfo);
         }
         permissionsCallBack.onRequestPermissionsResult(permissionResultInfoList);

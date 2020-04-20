@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CxSolution</string>
-    <string name="url_scheme_name">cxsolution</string>
+    <string name="url_scheme_name_android">cxsolution</string>
+    <string name="url_scheme_name_androidx">cxsolution_x</string>
 </resources>

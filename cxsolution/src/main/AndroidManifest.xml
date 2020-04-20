@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".URLScheme.URLSchemeActivity"
+            android:name="com.unity.cxsolution.URLScheme.androidx.URLSchemeActivity"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -12,7 +12,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/url_scheme_name" />
+                <data android:scheme="@string/url_scheme_name_androidx" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.unity.cxsolution.URLScheme.android.URLSchemeActivity"
+            tools:ignore="InnerclassSeparator">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/url_scheme_name_android" />
             </intent-filter>
         </activity>
     </application>

@@ -1,6 +1,7 @@
 package com.unity.cxsolution.Enter;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -8,12 +9,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-
 import com.unity3d.player.UnityPlayerActivity;
 
+@SuppressWarnings("NullableProblems")
 public class CustomUnityActivity extends UnityPlayerActivity {
     /**
      * 当前Activity对象
@@ -68,7 +66,7 @@ public class CustomUnityActivity extends UnityPlayerActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         TriggerBefore("onRestoreInstanceState", new Object[]{savedInstanceState}, new Class[]{Bundle.class});
 
         super.onRestoreInstanceState(savedInstanceState);
@@ -76,9 +74,9 @@ public class CustomUnityActivity extends UnityPlayerActivity {
         TriggerAfter("onRestoreInstanceState", new Object[]{savedInstanceState}, new Class[]{Bundle.class});
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         TriggerBefore("onRestoreInstanceState", new Object[]{savedInstanceState, persistentState}, new Class[]{Bundle.class, PersistableBundle.class});
 
         super.onRestoreInstanceState(savedInstanceState, persistentState);
@@ -96,7 +94,7 @@ public class CustomUnityActivity extends UnityPlayerActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState) {
         TriggerBefore("onSaveInstanceState", new Object[]{outState}, new Class[]{Bundle.class});
 
         super.onSaveInstanceState(outState);
@@ -104,9 +102,9 @@ public class CustomUnityActivity extends UnityPlayerActivity {
         TriggerAfter("onSaveInstanceState", new Object[]{outState}, new Class[]{Bundle.class});
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         TriggerBefore("onSaveInstanceState", new Object[]{outState, outPersistentState}, new Class[]{Bundle.class, PersistableBundle.class});
 
         super.onSaveInstanceState(outState, outPersistentState);
